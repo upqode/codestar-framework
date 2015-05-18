@@ -562,8 +562,25 @@
           });
         });
 
+          clone_group.find('textarea').each( function () {
+              this.id = this.name.replace(/[\[\]]/g,'');
+          });
+          clone_group.find('.wp-editor-container').each( function () {
+              var ta = $(this).find("textarea");
+              $(ta).addClass("wysiwyg").detach();
+              $(this).parents(".cs-fieldset").append($(ta));
+              $(this).parents(".wp-editor-wrap").remove();
+          });
+
         var cloned = clone_group.clone().removeClass('hidden');
         field_groups.append(cloned);
+
+          field_groups.find('textarea.wysiwyg').each( function () {
+              $(this).removeClass("wysiwyg");
+              var id = $(this).attr("id");
+              tinyMCE.settings = tinyMCEPreInit.mceInit.content;
+              $("#"+id).wp_editor();
+          });
 
         if ( accordion_group.length ) {
           field_groups.accordion('refresh');

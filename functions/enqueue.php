@@ -32,9 +32,17 @@ if( ! function_exists( 'cs_admin_enqueue_scripts' ) ) {
     wp_enqueue_script( 'jquery-ui-accordion' );
 
     // framework core scripts
+    wp_enqueue_script( 'cs-wysiwyg',    CS_URI .'/assets/js/vendor/js-wp-editor.js',    array("jquery"), '1.0.0', true );
     wp_enqueue_script( 'cs-plugins',    CS_URI .'/assets/js/cs-plugins.js',    array(), '1.0.0', true );
-    wp_enqueue_script( 'cs-framework',  CS_URI .'/assets/js/cs-framework.js',  array( 'cs-plugins' ), '1.0.0', true );
+    wp_enqueue_script( 'cs-framework',  CS_URI .'/assets/js/cs-framework.js',  array( 'cs-plugins' ), '1.0.1', true );
+    wp_enqueue_script( 'wysiwyg-fix',  CS_URI .'/assets/js/wysiwyg-fix.js',  array( 'jquery' ), '1.0.1', true );
 
+	  $ap_vars = array(
+		  'url' => get_home_url(),
+		  'includes_url' => includes_url()
+	  );
+
+	  wp_localize_script( 'cs-wysiwyg', 'ap_vars', $ap_vars );
   }
   add_action( 'admin_enqueue_scripts', 'cs_admin_enqueue_scripts' );
 }
