@@ -9,8 +9,9 @@
                     var ta = $(this).find("textarea");
                     var content = $(ta).html();
                     var id = $(ta).attr("name").replace(/[\[\]]/g, '');
+                    var name = $(ta).attr("name");
                     //$(ta).addClass("wysiwyg").detach();
-                    $(this).parent().append($("<textarea/>").attr("id", id).html(content));
+                    $(this).parent().append($("<textarea/>").attr("name", name).attr("id", id).html(content));
                     $(this).remove();
                     $("#" + id).wp_editor();
                     //$(ta).attr("id","ta"+i);
