@@ -52,10 +52,10 @@ class CSFramework_Option_typography extends CSFramework_Options {
     $variant_value = $value['variant'];
     $is_variant    = ( isset( $this->field['variant'] ) && $this->field['variant'] === false ) ? false : true;
     $is_chosen     = ( isset( $this->field['chosen'] ) && $this->field['chosen'] === false ) ? '' : 'chosen ';
-    $google_json   = json_decode( wp_remote_fopen( CS_URI .'/fields/typography/google-fonts.json' ) );
+    $google_json   = cs_get_google_fonts();
     $chosen_rtl    = ( is_rtl() && ! empty( $is_chosen ) ) ? 'chosen-rtl ' : '';
 
-    if( ! empty( $google_json ) ) {
+    if( is_object( $google_json ) ) {
 
       $googlefonts = array();
 
@@ -70,13 +70,13 @@ class CSFramework_Option_typography extends CSFramework_Options {
 
       do_action( 'cs_typography_family', $family_value, $this );
 
-      echo '<optgroup label="'. __( 'Web Safe Fonts', CS_TEXTDOMAIN ) .'">';
+      echo '<optgroup label="'. __( 'Web Safe Fonts', 'cs-framework' ) .'">';
       foreach ( $websafe_fonts as $websafe_value ) {
         echo '<option value="'. $websafe_value .'" data-variants="'. implode( '|', $default_variants ) .'" data-type="websafe"'. selected( $websafe_value, $family_value, true ) .'>'. $websafe_value .'</option>';
       }
       echo '</optgroup>';
 
-      echo '<optgroup label="'. __( 'Google Fonts', CS_TEXTDOMAIN ) .'">';
+      echo '<optgroup label="'. __( 'Google Fonts', 'cs-framework' ) .'">';
       foreach ( $googlefonts as $google_key => $google_value ) {
         echo '<option value="'. $google_key .'" data-variants="'. implode( '|', $google_value ) .'" data-type="google"'. selected( $google_key, $family_value, true ) .'>'. $google_key .'</option>';
       }
@@ -104,7 +104,7 @@ class CSFramework_Option_typography extends CSFramework_Options {
 
     } else {
 
-      _e( 'Error! Can not load json file.', CS_TEXTDOMAIN );
+      echo __( 'Error! Can not load json file.', 'cs-framework' );
 
     }
 

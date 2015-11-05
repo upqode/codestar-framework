@@ -13,17 +13,25 @@ if( ! function_exists( 'cs_get_icons' ) ) {
     $jsons = glob( CS_DIR . '/fields/icon/*.json' );
 
     if( ! empty( $jsons ) ) {
+
       foreach ( $jsons as $path ) {
 
-        $object = json_decode( wp_remote_fopen( CS_URI .'/fields/icon/'. basename( $path ) ) );
+        $object = cs_get_icon_fonts( 'fields/icon/'. basename( $path ) );
 
-        echo ( count( $jsons ) >= 2 ) ? '<h4 class="cs-icon-title">'. $object->name .'</h4>' : '';
+        if( is_object( $object ) ) {
 
-        foreach ( $object->icons as $icon ) {
-          echo '<a class="cs-icon-tooltip" data-icon="'. $icon .'" data-title="'. $icon .'"><span class="cs-icon cs-selector"><i class="'. $icon .'"></i></span></a>';
+          echo ( count( $jsons ) >= 2 ) ? '<h4 class="cs-icon-title">'. $object->name .'</h4>' : '';
+
+          foreach ( $object->icons as $icon ) {
+            echo '<a class="cs-icon-tooltip" data-icon="'. $icon .'" data-title="'. $icon .'"><span class="cs-icon cs-selector"><i class="'. $icon .'"></i></span></a>';
+          }
+
+        } else {
+          echo '<h4 class="cs-icon-title">'. __( 'Error! Can not load json file.', 'cs-framework' ) .'</h4>';
         }
 
       }
+
     }
 
     do_action( 'cs_add_icons' );
@@ -44,9 +52,9 @@ if( ! function_exists( 'cs_get_icons' ) ) {
 if( ! function_exists( 'cs_set_icons' ) ) {
   function cs_set_icons() {
 
-    echo '<div id="cs-icon-dialog" class="cs-dialog" title="'. __( 'Add Icon', CS_TEXTDOMAIN ) .'">';
-    echo '<div class="cs-dialog-header cs-text-center"><input type="text" placeholder='. __( 'Search a Icon...', CS_TEXTDOMAIN ) .'" class="cs-icon-search" /></div>';
-    echo '<div class="cs-dialog-load"><div class="cs-icon-loading">'. __( 'Loading...', CS_TEXTDOMAIN ) .'</div></div>';
+    echo '<div id="cs-icon-dialog" class="cs-dialog" title="'. __( 'Add Icon', 'cs-framework' ) .'">';
+    echo '<div class="cs-dialog-header cs-text-center"><input type="text" placeholder='. __( 'Search a Icon...', 'cs-framework' ) .'" class="cs-icon-search" /></div>';
+    echo '<div class="cs-dialog-load"><div class="cs-icon-loading">'. __( 'Loading...', 'cs-framework' ) .'</div></div>';
     echo '</div>';
 
   }

@@ -395,12 +395,18 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
+    overflow-y: auto;
+    max-height: 305px;
   }
 
   .horizontal li{
     display: inline-block;
     margin-right: 15px;
     margin-bottom: 15px;
+  }
+
+  input[type="radio"]:checked:before{
+    line-height: 10px;
   }
 }
 

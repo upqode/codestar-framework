@@ -535,7 +535,7 @@
       field_groups.sortable({
         axis: 'y',
         handle: '.cs-group-title',
-        helper: 'clone',
+        helper: 'original',
         cursor: 'move',
         placeholder: 'widget-placeholder',
         start: function( event, ui ) {
@@ -1334,7 +1334,7 @@
   // ON WIDGET-ADDED RELOAD FRAMEWORK PLUGINS
   // ------------------------------------------------------
   $.CSFRAMEWORK.WIDGET_RELOAD_PLUGINS = function() {
-    $(document).on('widget-added', function( event, $widget ) {
+    $(document).on('widget-added widget-updated', function( event, $widget ) {
       $widget.CSFRAMEWORK_RELOAD_PLUGINS();
       $widget.CSFRAMEWORK_DEPENDENCY();
     });

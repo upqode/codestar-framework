@@ -45,7 +45,7 @@ if ( ! function_exists( 'cs_add_element' ) ) {
       $element->output();
       $output .= ob_get_clean();
     } else {
-      $output .= '<p>'. __( 'This field class is not available!', CS_TEXTDOMAIN ) .'</p>';
+      $output .= '<p>'. __( 'This field class is not available!', 'cs-framework' ) .'</p>';
     }
 
     $output .= ( isset( $field['title'] ) ) ? '</div>' : '';
@@ -82,6 +82,57 @@ if ( ! function_exists( 'cs_encode_string' ) ) {
 if ( ! function_exists( 'cs_decode_string' ) ) {
   function cs_decode_string( $string ) {
     return unserialize( gzuncompress( stripslashes( call_user_func( 'base'. '64' .'_decode', rtrim( strtr( $string, '-_', '+/' ), '=' ) ) ) ) );
+  }
+}
+
+/**
+ *
+ * Get google font from json file
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ *
+ */
+if ( ! function_exists( 'cs_get_google_fonts' ) ) {
+  function cs_get_google_fonts() {
+
+    global $cs_google_fonts;
+
+    if( ! empty( $cs_google_fonts ) ) {
+
+      return $cs_google_fonts;
+
+    } else {
+
+      ob_start();
+      cs_locate_template( 'fields/typography/google-fonts.json' );
+      $json = ob_get_clean();
+
+      $cs_google_fonts = json_decode( $json );
+
+      return $cs_google_fonts;
+    }
+
+  }
+}
+
+/**
+ *
+ * Get icon fonts from json file
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ *
+ */
+if ( ! function_exists( 'cs_get_icon_fonts' ) ) {
+  function cs_get_icon_fonts( $file ) {
+
+    ob_start();
+    cs_locate_template( $file );
+    $json = ob_get_clean();
+
+    return json_decode( $json );
+
   }
 }
 
@@ -141,7 +192,7 @@ if ( ! function_exists( 'cs_load_option_fields' ) ) {
 
         if( ! in_array( basename( $override_field ), $located_fields ) ) {
 
-          cs_locate_template( str_replace(  CS_DIR .'-override', '', $override_field ) );
+          cs_locate_template( str_replace( $override_dir, '/fields', $override_field ) );
 
         }
 
