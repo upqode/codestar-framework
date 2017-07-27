@@ -1,3 +1,15 @@
+/**
+ *
+ * -----------------------------------------------------------
+ *
+ * Codestar Framework
+ * A Lightweight and easy-to-use WordPress Options Framework
+ *
+ * Copyright 2015 Codestar <info@codestarlive.com>
+ *
+ * -----------------------------------------------------------
+ *
+ */
 @import "compass";
 @import "vendor/mixins";
 
@@ -213,6 +225,31 @@
   float: right;
   margin-right: 0;
   margin-left: 10px;
+}
+
+.cs-taxonomy-add-fields{
+
+  .cs-fieldset{
+    margin-right: 0;
+  }
+
+  .cs-help{
+    left: -5px;
+    right: auto;
+  }
+}
+
+.cs-taxonomy-edit-fields{
+
+  .cs-fieldset{
+    margin-left: 0;
+    margin-right: 225px;
+  }
+
+  .cs-help{
+    right: auto;
+    left: -5px;
+  }
 }
 
 #cs-save-ajax{

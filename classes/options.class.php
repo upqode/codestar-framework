@@ -145,6 +145,20 @@ abstract class CSFramework_Options extends CSFramework_Abstract {
 
     }
 
+    if( ( isset( $this->field['debug_light'] ) && $this->field['debug_light'] === true ) || ( defined( 'CS_OPTIONS_DEBUG_LIGHT' ) && CS_OPTIONS_DEBUG_LIGHT ) ) {
+
+      $out .= "<pre>";
+      $out .= "<strong>". __( 'USAGE', 'cs-framework' ) .":</strong>";
+      $out .= "\n";
+      $out .= ( isset( $this->field['id'] ) ) ? "cs_get_option( '". $this->field['id'] ."' );" : '';
+      $out .= "\n";
+      $out .= "<strong>". __( 'ID', 'cs-framework' ) .":</strong>";
+      $out .= "\n";
+      $out .= ( isset( $this->field['id'] ) ) ? $this->field['id'] : '';
+      $out .= "</pre>";
+
+    }
+
     return $out;
 
   }
@@ -272,6 +286,34 @@ abstract class CSFramework_Options extends CSFramework_Abstract {
         if ( ! is_wp_error( $tags ) && ! empty( $tags ) ) {
           foreach ( $tags as $tag ) {
             $options[$tag->term_id] = $tag->name;
+          }
+        }
+
+      break;
+
+      case 'menus':
+      case 'menu':
+
+        $menus = wp_get_nav_menus( $query_args );
+
+        if ( ! is_wp_error( $menus ) && ! empty( $menus ) ) {
+          foreach ( $menus as $menu ) {
+            $options[$menu->term_id] = $menu->name;
+          }
+        }
+
+      break;
+
+      case 'post_types':
+      case 'post_type':
+
+        $post_types = get_post_types( array(
+          'show_in_nav_menus' => true
+        ) );
+
+        if ( ! is_wp_error( $post_types ) && ! empty( $post_types ) ) {
+          foreach ( $post_types as $post_type ) {
+            $options[$post_type] = ucfirst($post_type);
           }
         }
 

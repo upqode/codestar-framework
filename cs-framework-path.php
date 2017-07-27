@@ -7,7 +7,7 @@
  * @version 1.0.0
  *
  */
-defined( 'CS_VERSION' )    or  define( 'CS_VERSION',    '1.0.0' );
+defined( 'CS_VERSION' )    or  define( 'CS_VERSION',    '1.0.1' );
 defined( 'CS_OPTION' )     or  define( 'CS_OPTION',     '_cs_options' );
 defined( 'CS_CUSTOMIZE' )  or  define( 'CS_CUSTOMIZE',  '_cs_customize_options' );
 
@@ -24,7 +24,7 @@ if( ! function_exists( 'cs_get_path_locate' ) ) {
 
     $dirname        = wp_normalize_path( dirname( __FILE__ ) );
     $plugin_dir     = wp_normalize_path( WP_PLUGIN_DIR );
-    $located_plugin = ( preg_match( '#'. $plugin_dir .'#', $dirname ) ) ? true : false;
+    $located_plugin = ( preg_match( '#'. sanitize_file_name( $plugin_dir ) .'#', sanitize_file_name( $dirname ) ) ) ? true : false;
     $directory      = ( $located_plugin ) ? $plugin_dir : get_template_directory();
     $directory_uri  = ( $located_plugin ) ? WP_PLUGIN_URL : get_template_directory_uri();
     $basename       = str_replace( wp_normalize_path( $directory ), '', $dirname );
@@ -68,7 +68,7 @@ if( ! function_exists( 'cs_locate_template' ) ) {
 
     $located      = '';
     $override     = apply_filters( 'cs_framework_override', 'cs-framework-override' );
-    $dir_plugin   = WP_PLUGIN_DIR;
+    $dir_plugin   = wp_normalize_path( WP_PLUGIN_DIR );
     $dir_theme    = get_template_directory();
     $dir_child    = get_stylesheet_directory();
     $dir_override = '/'. $override .'/'. $template_name;
@@ -181,7 +181,7 @@ if ( ! function_exists( 'cs_get_all_option' ) ) {
 
 /**
  *
- * Multi language value
+ * Multi language option
  *
  * @since 1.0.0
  * @version 1.0.0
@@ -191,6 +191,32 @@ if ( ! function_exists( 'cs_get_multilang_option' ) ) {
   function cs_get_multilang_option( $option_name = '', $default = '' ) {
 
     $value     = cs_get_option( $option_name, $default );
+    $languages = cs_language_defaults();
+    $default   = $languages['default'];
+    $current   = $languages['current'];
+
+    if ( is_array( $value ) && is_array( $languages ) && isset( $value[$current] ) ) {
+      return  $value[$current];
+    } else if ( $default != $current ) {
+      return  '';
+    }
+
+    return $value;
+
+  }
+}
+
+/**
+ *
+ * Multi language value
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ *
+ */
+if ( ! function_exists( 'cs_get_multilang_value' ) ) {
+  function cs_get_multilang_value( $value = '', $default = '' ) {
+
     $languages = cs_language_defaults();
     $default   = $languages['default'];
     $current   = $languages['current'];

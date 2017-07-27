@@ -10,7 +10,7 @@
  * Plugin URI: http://codestarframework.com/
  * Author: Codestar
  * Author URI: http://codestarlive.com/
- * Version: 1.0.0
+ * Version: 1.0.1
  * Description: A Lightweight and easy-to-use WordPress Options Framework
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -48,11 +48,13 @@ if( ! function_exists( 'cs_framework_init' ) && ! class_exists( 'CSFramework' ) 
     // active modules
     defined( 'CS_ACTIVE_FRAMEWORK' )  or  define( 'CS_ACTIVE_FRAMEWORK',  true );
     defined( 'CS_ACTIVE_METABOX'   )  or  define( 'CS_ACTIVE_METABOX',    true );
+    defined( 'CS_ACTIVE_TAXONOMY'   ) or  define( 'CS_ACTIVE_TAXONOMY',   true );
     defined( 'CS_ACTIVE_SHORTCODE' )  or  define( 'CS_ACTIVE_SHORTCODE',  true );
     defined( 'CS_ACTIVE_CUSTOMIZE' )  or  define( 'CS_ACTIVE_CUSTOMIZE',  true );
 
     // helpers
     cs_locate_template( 'functions/deprecated.php'     );
+    cs_locate_template( 'functions/fallback.php'       );
     cs_locate_template( 'functions/helpers.php'        );
     cs_locate_template( 'functions/actions.php'        );
     cs_locate_template( 'functions/enqueue.php'        );
@@ -64,12 +66,14 @@ if( ! function_exists( 'cs_framework_init' ) && ! class_exists( 'CSFramework' ) 
     cs_locate_template( 'classes/options.class.php'    );
     cs_locate_template( 'classes/framework.class.php'  );
     cs_locate_template( 'classes/metabox.class.php'    );
+    cs_locate_template( 'classes/taxonomy.class.php'   );
     cs_locate_template( 'classes/shortcode.class.php'  );
     cs_locate_template( 'classes/customize.class.php'  );
 
     // configs
     cs_locate_template( 'config/framework.config.php'  );
     cs_locate_template( 'config/metabox.config.php'    );
+    cs_locate_template( 'config/taxonomy.config.php'   );
     cs_locate_template( 'config/shortcode.config.php'  );
     cs_locate_template( 'config/customize.config.php'  );
 
